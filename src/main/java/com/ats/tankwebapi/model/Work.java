@@ -22,7 +22,7 @@ import javax.persistence.Transient;
 		private int customerId;
 		
 		@Column(name="employee_id")
-		private int employeeId;		
+		private String employeeId;		
 				
 		@Column(name="work_date")
 		private String workDate;		
@@ -118,11 +118,12 @@ import javax.persistence.Transient;
 			this.customerId = customerId;
 		}
 
-		public int getEmployeeId() {
+
+		public String getEmployeeId() {
 			return employeeId;
 		}
 
-		public void setEmployeeId(int employeeId) {
+		public void setEmployeeId(String employeeId) {
 			this.employeeId = employeeId;
 		}
 

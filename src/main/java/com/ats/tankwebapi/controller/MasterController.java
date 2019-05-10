@@ -2,7 +2,10 @@
 package com.ats.tankwebapi.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,9 +23,11 @@ import com.ats.tankwebapi.model.User;
 import com.ats.tankwebapi.model.Work;
 import com.ats.tankwebapi.repository.CustomerRepo;
 import com.ats.tankwebapi.repository.EmployeeRepo;
+import com.ats.tankwebapi.repository.GetWorkCustomerRepo;
 import com.ats.tankwebapi.repository.LocationRepo;
 import com.ats.tankwebapi.repository.UserRepo;
 import com.ats.tankwebapi.repository.WorkRepo;
+import com.ats.tankwebapi.work.model.GetWorkCustomer;
 
 @RestController
 public class MasterController {
@@ -41,6 +46,9 @@ public class MasterController {
 	  
 	  @Autowired
 	  WorkRepo workRepo;
+	  
+	  @Autowired
+	  GetWorkCustomerRepo getWorkCustomerRepo;
 	  
 		@RequestMapping(value = { "/loginUser" }, method = RequestMethod.POST)
 		public @ResponseBody User loginUser(@RequestParam("username") String userName,
@@ -188,7 +196,7 @@ public class MasterController {
 			try {
 
 				list = customerRepo.findByDelStatusAndIsUsedOrderByCustomerIdDesc(1,1);
-
+					System.out.print("Cust List : "+list);
 			} catch (Exception e) {
 
 				e.printStackTrace();
@@ -354,9 +362,9 @@ public class MasterController {
 			return save;
 		}
 		@RequestMapping(value = { "/getCustomerByLocationId" }, method = RequestMethod.POST)
-		public @ResponseBody Customer getCustomerByLocationId(@RequestParam("areaId") int areaId) {
+		public @ResponseBody List<Customer> getCustomerByLocationId(@RequestParam("areaId") int areaId) {
 
-			Customer list = new Customer();
+			 List<Customer> list = new  ArrayList<Customer>();
 			try {
 
 				list = customerRepo.findByAreaIdAndDelStatus(areaId,1);
@@ -370,4 +378,39 @@ public class MasterController {
 
 		}
 
+		@RequestMapping(value = { "/getWorkByStatus" }, method = RequestMethod.POST)
+		public @ResponseBody  List<GetWorkCustomer> getWorkByStatus(@RequestParam("status") int status) {
+
+			
+			 List<GetWorkCustomer>   workList = new ArrayList<GetWorkCustomer>();
+			try {
+				workList=getWorkCustomerRepo.getAllworkInfo(status);
+				for(int i=0;i<workList.size();i++)
+				{
+					String empIds=workList.get(i).getEmployeeId();
+					String[] values = empIds.split(",");
+					///System.err.println("emp ids for notification are::" + empIds);
+					List<String> al = new ArrayList<String>(Arrays.asList(values));
+
+					Set<String> set = new HashSet<>(al);
+					al.clear();
+					al.addAll(set);
+					//System.err.println("emp ids for notification are:--------------:" + al.toString());
+					List<User> userList =new ArrayList<User>();
+					for(int j=0;j<al.size();j++)
+					{
+						User user =userRepo.findByUserIdAndDelStatusOrderByUserIdDesc(Integer.parseInt(al.get(j)),1);
+						userList.add(user); 						
+					}
+					workList.get(i).setUser(userList);
+				}
+
+			} catch (Exception e) {
+
+				e.printStackTrace();
+			}
+
+			return workList;
+
+		}
 }
