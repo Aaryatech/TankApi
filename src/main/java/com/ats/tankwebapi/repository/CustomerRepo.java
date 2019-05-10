@@ -20,4 +20,12 @@ public interface CustomerRepo extends JpaRepository<Customer, Integer>{
 	@Query("update Customer set del_status=0  WHERE customer_id=:custId")
 	int deleteCustomer(int custId);
 
+	Customer findByAreaIdAndDelStatus(int custId,int i);
+
+	Customer findByCustomerIdAndDelStatusOrderByCustomerIdDesc(int custId, int i);
+
+	List<Customer> findByDelStatusOrderByCustomerIdDesc(int i);
+
+	List<Customer> findByDelStatusAndIsUsedOrderByCustomerIdDesc(int i, int j);
+
 }

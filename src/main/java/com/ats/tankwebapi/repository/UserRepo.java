@@ -15,7 +15,7 @@ public interface UserRepo extends JpaRepository<User, Integer>{
 	
 	@Transactional
 	@Modifying
-	@Query("update User set is_used=0  WHERE user_id=:userId")
+	@Query("update User set del_status=0  WHERE user_id=:userId")
 	int deleteUser(@Param("userId") int userId);
 
 	User findByUserIdOrderByUserIdDesc(int userId);
@@ -23,6 +23,12 @@ public interface UserRepo extends JpaRepository<User, Integer>{
 	List<User> findByOrderByUserIdDesc();
 
 	User findByMobileNumberAndPassword(String userName, String pass);
+
+	User findByUserIdAndDelStatusOrderByUserIdDesc(int userId, int i);
+
+	List<User> findByDelStatusOrderByUserIdDesc(int i);
+
+	User findByDelStatusAndMobileNumberAndPassword(int i, String userName, String pass);
 
 	
 

@@ -17,10 +17,12 @@ import com.ats.tankwebapi.model.Employee;
 import com.ats.tankwebapi.model.Info;
 import com.ats.tankwebapi.model.Location;
 import com.ats.tankwebapi.model.User;
+import com.ats.tankwebapi.model.Work;
 import com.ats.tankwebapi.repository.CustomerRepo;
 import com.ats.tankwebapi.repository.EmployeeRepo;
 import com.ats.tankwebapi.repository.LocationRepo;
 import com.ats.tankwebapi.repository.UserRepo;
+import com.ats.tankwebapi.repository.WorkRepo;
 
 @RestController
 public class MasterController {
@@ -37,6 +39,9 @@ public class MasterController {
 	  @Autowired
 	  LocationRepo locationRepo;
 	  
+	  @Autowired
+	  WorkRepo workRepo;
+	  
 		@RequestMapping(value = { "/loginUser" }, method = RequestMethod.POST)
 		public @ResponseBody User loginUser(@RequestParam("username") String userName,
 				@RequestParam("userPass") String pass) {
@@ -44,7 +49,7 @@ public class MasterController {
 			User loginResponse = new User();
 			try {
 
-				loginResponse = userRepo.findByMobileNumberAndPassword(userName, pass);
+				loginResponse = userRepo.findByDelStatusAndMobileNumberAndPassword(1,userName, pass);
 
 				if (loginResponse == null) {
 					loginResponse = new User();
@@ -96,7 +101,7 @@ public class MasterController {
 			List<User> list = new ArrayList<User>();
 			try {
 
-				list = userRepo.findByOrderByUserIdDesc();
+				list = userRepo.findByDelStatusOrderByUserIdDesc(1);
 
 			} catch (Exception e) {
 
@@ -113,7 +118,7 @@ public class MasterController {
 			User list = new User();
 			try {
 
-				list = userRepo.findByUserIdOrderByUserIdDesc(userId);
+				list = userRepo.findByUserIdAndDelStatusOrderByUserIdDesc(userId,1);
 
 			} catch (Exception e) {
 
@@ -182,7 +187,7 @@ public class MasterController {
 			List<Customer> list = new ArrayList<Customer>();
 			try {
 
-				list = customerRepo.findByOrderByCustomerIdDesc();
+				list = customerRepo.findByDelStatusAndIsUsedOrderByCustomerIdDesc(1,1);
 
 			} catch (Exception e) {
 
@@ -199,7 +204,7 @@ public class MasterController {
 			Customer list = new Customer();
 			try {
 
-				list = customerRepo.findByCustomerIdOrderByCustomerIdDesc(custId);
+				list = customerRepo.findByCustomerIdAndDelStatusOrderByCustomerIdDesc(custId,1);
 
 			} catch (Exception e) {
 
@@ -268,7 +273,7 @@ public class MasterController {
 			List<Location> list = new ArrayList<Location>();
 			try {
 
-				list = locationRepo.findByOrderByLocationIdDesc();
+				list = locationRepo.findByDelStatusOrderByLocationIdDesc(1);
 
 			} catch (Exception e) {
 
@@ -285,7 +290,7 @@ public class MasterController {
 			Location list = new Location();
 			try {
 
-				list = locationRepo.findByLocationIdOrderByLocationIdDesc(locationId);
+				list = locationRepo.findByLocationIdAndDelStatusOrderByLocationIdDesc(locationId,1);
 
 			} catch (Exception e) {
 
@@ -323,4 +328,46 @@ public class MasterController {
 			return info;
 
 		}
+		
+		@RequestMapping(value = { "/saveWork" }, method = RequestMethod.POST)
+		public @ResponseBody Work saveWork(@RequestBody Work work) {
+
+			Work save = new Work();
+			try {
+
+				save = workRepo.saveAndFlush(work);
+
+				if (save != null) {
+					save.setError(false);
+				} else {
+
+					save = new Work();
+					save.setError(true);
+				}
+
+			} catch (Exception e) {
+				save = new Work();
+				save.setError(true);
+				e.printStackTrace();
+			}
+
+			return save;
+		}
+		@RequestMapping(value = { "/getCustomerByLocationId" }, method = RequestMethod.POST)
+		public @ResponseBody Customer getCustomerByLocationId(@RequestParam("areaId") int areaId) {
+
+			Customer list = new Customer();
+			try {
+
+				list = customerRepo.findByAreaIdAndDelStatus(areaId,1);
+
+			} catch (Exception e) {
+
+				e.printStackTrace();
+			}
+
+			return list;
+
+		}
+
 }

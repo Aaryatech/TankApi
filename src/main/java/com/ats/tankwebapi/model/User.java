@@ -29,6 +29,9 @@ import javax.persistence.Transient;
 		@Column(name="is_used")
 		private int isUsed;	
 		
+		@Column(name="del_status")
+		private int delStatus;
+		
 		@Column(name="mobile_number")
 		private String mobileNumber;
 		
@@ -190,15 +193,23 @@ import javax.persistence.Transient;
 			this.isError = isError;
 		}
 
+		public int getDelStatus() {
+			return delStatus;
+		}
+
+		public void setDelStatus(int delStatus) {
+			this.delStatus = delStatus;
+		}
+
 		@Override
 		public String toString() {
 			return "User [userId=" + userId + ", userName=" + userName + ", dateOfBirth=" + dateOfBirth
-					+ ", designation=" + designation + ", isUsed=" + isUsed + ", mobileNumber=" + mobileNumber
-					+ ", password=" + password + ", exInt1=" + exInt1 + ", exInt2=" + exInt2 + ", exInt3=" + exInt3
-					+ ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + ", exVar3=" + exVar3 + ", exFloat1=" + exFloat1
-					+ ", msg=" + msg + ", isError=" + isError + "]";
+					+ ", designation=" + designation + ", isUsed=" + isUsed + ", delStatus=" + delStatus
+					+ ", mobileNumber=" + mobileNumber + ", password=" + password + ", exInt1=" + exInt1 + ", exInt2="
+					+ exInt2 + ", exInt3=" + exInt3 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + ", exVar3=" + exVar3
+					+ ", exFloat1=" + exFloat1 + ", msg=" + msg + ", isError=" + isError + "]";
 		}
 
-
+		
 		 
 }

@@ -21,4 +21,8 @@ public interface LocationRepo extends JpaRepository<Location, Integer>{
 
 	Location findByLocationIdOrderByLocationIdDesc(int locationId);
 
+	Location findByLocationIdAndDelStatusOrderByLocationIdDesc(int locationId, int i);
+
+	List<Location> findByDelStatusOrderByLocationIdDesc(int i);
+
 }

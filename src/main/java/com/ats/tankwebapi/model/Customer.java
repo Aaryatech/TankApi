@@ -55,6 +55,8 @@ public class Customer {
 	@Column(name="del_status")
 	private int delStatus;
 	
+	@Column(name="is_used")
+	private int isUsed;
 	
 	@Column(name="ex_int1")
 	private Integer exInt1;
@@ -198,6 +200,14 @@ public class Customer {
 		this.delStatus = delStatus;
 	}
 
+	public int getIsUsed() {
+		return isUsed;
+	}
+
+	public void setIsUsed(int isUsed) {
+		this.isUsed = isUsed;
+	}
+
 	public Integer getExInt1() {
 		return exInt1;
 	}
@@ -285,22 +295,12 @@ public class Customer {
 				+ ", customerContactName=" + customerContactName + ", customerContactNumber=" + customerContactNumber
 				+ ", noOfUpperTank=" + noOfUpperTank + ", noOfLowerTank=" + noOfLowerTank + ", costUppertankPerpieces="
 				+ costUppertankPerpieces + ", costLowertankPerpieces=" + costLowertankPerpieces + ", areaId=" + areaId
-				+ ", frequency=" + frequency + ", delStatus=" + delStatus + ", exInt1=" + exInt1 + ", exInt2=" + exInt2
-				+ ", exInt3=" + exInt3 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + ", exVar3=" + exVar3
-				+ ", exFloat1=" + exFloat1 + ", remark=" + remark + ", msg=" + msg + ", isError=" + isError
-				+ ", getCustomerId()=" + getCustomerId() + ", getCustomerName()=" + getCustomerName()
-				+ ", getCustomerAddress()=" + getCustomerAddress() + ", getCustomerPhone()=" + getCustomerPhone()
-				+ ", getCustomerPhone2()=" + getCustomerPhone2() + ", getCustomerContactName()="
-				+ getCustomerContactName() + ", getCustomerContactNumber()=" + getCustomerContactNumber()
-				+ ", getNoOfUpperTank()=" + getNoOfUpperTank() + ", getNoOfLowerTank()=" + getNoOfLowerTank()
-				+ ", getCostUppertankPerpieces()=" + getCostUppertankPerpieces() + ", getCostLowertankPerpieces()="
-				+ getCostLowertankPerpieces() + ", getAreaId()=" + getAreaId() + ", getFrequency()=" + getFrequency()
-				+ ", getDelStatus()=" + getDelStatus() + ", getExInt1()=" + getExInt1() + ", getExInt2()=" + getExInt2()
-				+ ", getExInt3()=" + getExInt3() + ", getExVar1()=" + getExVar1() + ", getExVar2()=" + getExVar2()
-				+ ", getExVar3()=" + getExVar3() + ", getExFloat1()=" + getExFloat1() + ", getRemark()=" + getRemark()
-				+ ", getMsg()=" + getMsg() + ", isError()=" + isError() + ", getClass()=" + getClass() + ", hashCode()="
-				+ hashCode() + ", toString()=" + super.toString() + "]";
+				+ ", frequency=" + frequency + ", delStatus=" + delStatus + ", isUsed=" + isUsed + ", exInt1=" + exInt1
+				+ ", exInt2=" + exInt2 + ", exInt3=" + exInt3 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2
+				+ ", exVar3=" + exVar3 + ", exFloat1=" + exFloat1 + ", remark=" + remark + ", msg=" + msg + ", isError="
+				+ isError + "]";
 	}
+
 	
 
 }

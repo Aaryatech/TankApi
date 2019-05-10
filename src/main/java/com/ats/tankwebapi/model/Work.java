@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 
 	@Entity
@@ -77,14 +78,14 @@ import javax.persistence.Table;
 		@Column(name="is_used")
 		private int isUsed;	
 		
-		@Column(name="ex_int1")
-		private int exInt1;
-		
-		@Column(name="ex_int2")
-		private int exInt2;
-		
-		@Column(name="ex_int3")
-		private int exInt3;
+		@Column(name = "ex_int1")
+		private Integer exInt1;
+
+		@Column(name = "ex_int2")
+		private Integer exInt2;
+
+		@Column(name = "ex_int3")
+		private Integer exInt3;
 		
 		@Column(name="ex_var1")
 		private String exVar1;
@@ -95,6 +96,12 @@ import javax.persistence.Table;
 		@Column(name="ex_var3")
 		private String exVar3;
 
+		@Transient
+		private String msg;
+		
+		@Transient
+		private boolean isError;
+		
 		public int getWorkId() {
 			return workId;
 		}
@@ -310,6 +317,36 @@ import javax.persistence.Table;
 		public void setExVar3(String exVar3) {
 			this.exVar3 = exVar3;
 		}
+		
+		
+
+		public String getMsg() {
+			return msg;
+		}
+
+		public void setMsg(String msg) {
+			this.msg = msg;
+		}
+
+		public boolean isError() {
+			return isError;
+		}
+
+		public void setError(boolean isError) {
+			this.isError = isError;
+		}
+
+		public void setExInt1(Integer exInt1) {
+			this.exInt1 = exInt1;
+		}
+
+		public void setExInt2(Integer exInt2) {
+			this.exInt2 = exInt2;
+		}
+
+		public void setExInt3(Integer exInt3) {
+			this.exInt3 = exInt3;
+		}
 
 		@Override
 		public String toString() {
@@ -321,8 +358,8 @@ import javax.persistence.Table;
 					+ ", nextDate=" + nextDate + ", status=" + status + ", customerFrequency=" + customerFrequency
 					+ ", billNumber=" + billNumber + ", delStatus=" + delStatus + ", isUsed=" + isUsed + ", exInt1="
 					+ exInt1 + ", exInt2=" + exInt2 + ", exInt3=" + exInt3 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2
-					+ ", exVar3=" + exVar3 + "]";
+					+ ", exVar3=" + exVar3 + ", msg=" + msg + ", isError=" + isError + "]";
 		}
-		
-		
+
+	
 }
