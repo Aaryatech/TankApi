@@ -19,14 +19,20 @@ import com.ats.tankwebapi.model.Customer;
 import com.ats.tankwebapi.model.Employee;
 import com.ats.tankwebapi.model.Info;
 import com.ats.tankwebapi.model.Location;
+import com.ats.tankwebapi.model.Payment;
+import com.ats.tankwebapi.model.Setting;
 import com.ats.tankwebapi.model.User;
 import com.ats.tankwebapi.model.Work;
 import com.ats.tankwebapi.repository.CustomerRepo;
 import com.ats.tankwebapi.repository.EmployeeRepo;
+import com.ats.tankwebapi.repository.GetCustomerInfoRepo;
 import com.ats.tankwebapi.repository.GetWorkCustomerRepo;
 import com.ats.tankwebapi.repository.LocationRepo;
+import com.ats.tankwebapi.repository.PaymentRepo;
+import com.ats.tankwebapi.repository.SettingRepo;
 import com.ats.tankwebapi.repository.UserRepo;
 import com.ats.tankwebapi.repository.WorkRepo;
+import com.ats.tankwebapi.work.model.GetCustomerInfo;
 import com.ats.tankwebapi.work.model.GetWorkCustomer;
 
 @RestController
@@ -49,6 +55,15 @@ public class MasterController {
 	  
 	  @Autowired
 	  GetWorkCustomerRepo getWorkCustomerRepo;
+	  
+	  @Autowired
+	  GetCustomerInfoRepo getCustomerInfoRepo;
+	  
+	  @Autowired
+	  SettingRepo settingRepo;
+	  
+	  @Autowired
+	  PaymentRepo paymentRepo;
 	  
 		@RequestMapping(value = { "/loginUser" }, method = RequestMethod.POST)
 		public @ResponseBody User loginUser(@RequestParam("username") String userName,
@@ -412,5 +427,168 @@ public class MasterController {
 
 			return workList;
 
+		}
+		
+		@RequestMapping(value = { "/getWorkListSchedule" }, method = RequestMethod.POST)
+		public @ResponseBody  List<GetWorkCustomer> getWorkListSchedule(@RequestParam("status") int status) {
+
+			
+			 List<GetWorkCustomer> workList = new ArrayList<GetWorkCustomer>();
+			try {
+				workList=getWorkCustomerRepo.getAllworkInfoSchedule(status);
+				for(int i=0;i<workList.size();i++)
+				{
+					String empIds=workList.get(i).getEmployeeId();
+					String[] values = empIds.split(",");
+					///System.err.println("emp ids for notification are::" + empIds);
+					List<String> al = new ArrayList<String>(Arrays.asList(values));
+
+					Set<String> set = new HashSet<>(al);
+					al.clear();
+					al.addAll(set);
+					//System.err.println("emp ids for notification are:--------------:" + al.toString());
+					List<User> userList =new ArrayList<User>();
+					for(int j=0;j<al.size();j++)
+					{
+						User user =userRepo.findByUserIdAndDelStatusOrderByUserIdDesc(Integer.parseInt(al.get(j)),1);
+						userList.add(user); 						
+					}
+					workList.get(i).setUser(userList);
+				}
+
+			} catch (Exception e) {
+
+				e.printStackTrace();
+			}
+
+			return workList;
+
+		}
+		@RequestMapping(value = { "/getWorkHistoryByCustId" }, method = RequestMethod.POST)
+		public @ResponseBody  List<GetWorkCustomer> getWorkHistoryByCustId(@RequestParam("custId") int custId ,@RequestParam("status") List<Integer> status,@RequestParam("fromDate") String fromDate,@RequestParam("toDate") String toDate) {
+
+			
+			 List<GetWorkCustomer> workList = new ArrayList<GetWorkCustomer>(); 
+			try {
+				workList=getWorkCustomerRepo.getAllworkHistory(custId,status,fromDate,toDate);
+				for(int i=0;i<workList.size();i++)
+				{
+					String empIds=workList.get(i).getEmployeeId();
+					String[] values = empIds.split(",");
+					///System.err.println("emp ids for notification are::" + empIds);
+					List<String> al = new ArrayList<String>(Arrays.asList(values));
+
+					Set<String> set = new HashSet<>(al);
+					al.clear();
+					al.addAll(set);
+					//System.err.println("emp ids for notification are:--------------:" + al.toString());
+					List<User> userList =new ArrayList<User>();
+					for(int j=0;j<al.size();j++)
+					{
+						User user =userRepo.findByUserIdAndDelStatusOrderByUserIdDesc(Integer.parseInt(al.get(j)),1);
+						userList.add(user); 						
+					}
+					workList.get(i).setUser(userList);
+				}
+
+			} catch (Exception e) {
+
+				e.printStackTrace();
+			}
+
+			return workList;
+
+		}
+		@RequestMapping(value = { "/getCustInfoPaymentByCustId" }, method = RequestMethod.POST)
+		public @ResponseBody  List<GetCustomerInfo> getCustInfoPaymentByCustId(@RequestParam("custId") int custId) {
+
+			
+			 List<GetCustomerInfo> workList = new ArrayList<GetCustomerInfo>(); 
+			try {
+				workList=getCustomerInfoRepo.getAllCustInfoPayment(custId);
+				
+			} catch (Exception e) {
+
+				e.printStackTrace();
+			}
+
+			return workList;
+
+		}
+		
+		@RequestMapping(value = { "/updateSettingValue" }, method = RequestMethod.POST)
+		public @ResponseBody Info updateSettingValue(@RequestParam("fromDate") String fromDate) {
+
+			Info info = new Info();
+
+			try {
+
+				int updatre = settingRepo.UpdateDate(fromDate);
+
+				if (updatre > 0) {
+					info.setError(false);
+					info.setMsg("Update");
+				} else {
+					info.setError(true);
+					info.setMsg("failed");
+				}
+
+			} catch (Exception e) {
+
+				e.printStackTrace();
+				info.setError(true);
+				info.setMsg("failed");
+			}
+
+			return info;
+
+		}
+		@RequestMapping(value = { "/getSettingValue" }, method = RequestMethod.GET)
+		public @ResponseBody Info getSettingValue() {
+
+			Info info = new Info();
+			Setting setting=new Setting();
+			try {
+
+				setting = settingRepo.findBySettingsId(1);
+
+			
+					info.setError(false);
+					info.setMsg(setting.getSettingsValue());
+			
+
+			} catch (Exception e) {
+
+				e.printStackTrace();
+				info.setError(true);
+				info.setMsg("failed");
+			}
+
+			return info;
+
+		}
+		@RequestMapping(value = { "/savePayment" }, method = RequestMethod.POST)
+		public @ResponseBody Payment savePayment(@RequestBody Payment payment) {
+
+			Payment save = new Payment();
+			try {
+
+				save = paymentRepo.saveAndFlush(payment);
+
+				if (save != null) {
+					save.setError(false);
+				} else {
+
+					save = new Payment();
+					save.setError(true);
+				}
+
+			} catch (Exception e) {
+				save = new Payment();
+				save.setError(true);
+				e.printStackTrace();
+			}
+
+			return save;
 		}
 }

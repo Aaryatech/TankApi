@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 
 	@Entity
@@ -19,6 +20,9 @@ import javax.persistence.Table;
 		
 		@Column(name="payment_date")
 		private String paymentDate;
+		
+		@Column(name="customer_id")
+		private int customerId;
 		
 		@Column(name="cost_rs")
 		private float costRs;
@@ -52,6 +56,12 @@ import javax.persistence.Table;
 		
 		@Column(name="ex_var3")
 		private String exVar3;
+		
+		@Transient
+		private String msg;
+		
+		@Transient
+		private boolean isError;
 
 		public int getPaymentId() {
 			return paymentId;
@@ -157,19 +167,39 @@ import javax.persistence.Table;
 			this.exVar3 = exVar3;
 		}
 
+		public int getCustomerId() {
+			return customerId;
+		}
+
+		public void setCustomerId(int customerId) {
+			this.customerId = customerId;
+		}
+
+		public String getMsg() {
+			return msg;
+		}
+
+		public void setMsg(String msg) {
+			this.msg = msg;
+		}
+
+		public boolean isError() {
+			return isError;
+		}
+
+		public void setError(boolean isError) {
+			this.isError = isError;
+		}
+
 		@Override
 		public String toString() {
-			return "Payment [paymentId=" + paymentId + ", paymentDate=" + paymentDate + ", costRs=" + costRs
-					+ ", delStatus=" + delStatus + ", userId=" + userId + ", paymentNumber=" + paymentNumber
-					+ ", remark=" + remark + ", exInt1=" + exInt1 + ", exInt2=" + exInt2 + ", exInt3=" + exInt3
-					+ ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + ", exVar3=" + exVar3 + ", getPaymentId()="
-					+ getPaymentId() + ", getPaymentDate()=" + getPaymentDate() + ", getCostRs()=" + getCostRs()
-					+ ", getDelStatus()=" + getDelStatus() + ", getUserId()=" + getUserId() + ", getPaymentNumber()="
-					+ getPaymentNumber() + ", getRemark()=" + getRemark() + ", getExInt1()=" + getExInt1()
-					+ ", getExInt2()=" + getExInt2() + ", getExInt3()=" + getExInt3() + ", getExVar1()=" + getExVar1()
-					+ ", getExVar2()=" + getExVar2() + ", getExVar3()=" + getExVar3() + ", getClass()=" + getClass()
-					+ ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
+			return "Payment [paymentId=" + paymentId + ", paymentDate=" + paymentDate + ", customerId=" + customerId
+					+ ", costRs=" + costRs + ", delStatus=" + delStatus + ", userId=" + userId + ", paymentNumber="
+					+ paymentNumber + ", remark=" + remark + ", exInt1=" + exInt1 + ", exInt2=" + exInt2 + ", exInt3="
+					+ exInt3 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + ", exVar3=" + exVar3 + ", msg=" + msg
+					+ ", isError=" + isError + "]";
 		}
+
 		
 		
 } 	
