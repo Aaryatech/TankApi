@@ -29,15 +29,19 @@ import com.ats.tankwebapi.repository.EmployeeRepo;
 import com.ats.tankwebapi.repository.GetCustomerDetailsRepo;
 import com.ats.tankwebapi.repository.GetCustomerInfoRepo;
 import com.ats.tankwebapi.repository.GetCustomerLocNameRepo;
+import com.ats.tankwebapi.repository.GetPaymentDetailRepo;
 import com.ats.tankwebapi.repository.GetWorkCustomerRepo;
 import com.ats.tankwebapi.repository.LocationRepo;
 import com.ats.tankwebapi.repository.PaymentRepo;
 import com.ats.tankwebapi.repository.SettingRepo;
 import com.ats.tankwebapi.repository.UserRepo;
+import com.ats.tankwebapi.repository.WorkDetailRepo;
 import com.ats.tankwebapi.repository.WorkRepo;
 import com.ats.tankwebapi.work.model.GetCustomerDetails;
 import com.ats.tankwebapi.work.model.GetCustomerInfo;
+import com.ats.tankwebapi.work.model.GetPaymentDetail;
 import com.ats.tankwebapi.work.model.GetWorkCustomer;
+import com.ats.tankwebapi.work.model.GetWorkDetail;
 
 @RestController
 public class MasterController {
@@ -74,6 +78,12 @@ public class MasterController {
 	  
 	  @Autowired
 	  GetCustomerLocNameRepo getCustomerLocNameRepo;
+	  
+	  @Autowired
+	  WorkDetailRepo workDetailRepo;
+	  
+	  @Autowired
+	  GetPaymentDetailRepo getPaymentDetailRepo;
 	  
 		@RequestMapping(value = { "/loginUser" }, method = RequestMethod.POST)
 		public @ResponseBody User loginUser(@RequestParam("username") String userName,
@@ -631,6 +641,81 @@ public class MasterController {
 			}
 
 			return list;
+
+		}
+		@RequestMapping(value = { "/getTotalWorkByCustId" }, method = RequestMethod.POST)
+		public @ResponseBody  List<GetWorkDetail> getTotalWorkByCustId(@RequestParam("custId") int custId) {
+
+			
+			 List<GetWorkDetail> workList = new ArrayList<GetWorkDetail>(); 
+			try {
+				workList=workDetailRepo.getTotalWorkAmtByCustId(custId);
+				
+			} catch (Exception e) {
+
+				e.printStackTrace();
+			}
+
+			return workList;
+
+		}
+		@RequestMapping(value = { "/getTotalPaymentByCustId" }, method = RequestMethod.POST)
+		public @ResponseBody  List<GetPaymentDetail> getTotalPaymentByCustId(@RequestParam("custId") int custId) {
+
+			
+			 List<GetPaymentDetail> workList = new ArrayList<GetPaymentDetail>(); 
+			try {
+				workList=getPaymentDetailRepo.getTotalPaymentAmtByCustId(custId);
+				
+			} catch (Exception e) {
+
+				e.printStackTrace();
+			}
+
+			return workList;
+
+		}
+		
+		@RequestMapping(value = { "/getTotalAmountByCustId" }, method = RequestMethod.POST)
+		public @ResponseBody  List<GetPaymentDetail> getTotalAmountByCustId(@RequestParam("custId") int custId ) {
+
+			
+			 List<GetPaymentDetail> paymentList = new ArrayList<GetPaymentDetail>(); 
+			try {
+				 List<GetWorkDetail> workList=workDetailRepo.getTotalWorkAmtByCustId(custId);
+				 paymentList = getPaymentDetailRepo.getTotalPaymentAmtByCustId(custId);
+					 
+				 
+				 for(int i = 0 ; i<workList.size() ; i++) {
+					 
+					 int find = 0 ;
+					 
+					 for(int j = 0 ; j<paymentList.size() ; j++) {
+						 
+						 if(workList.get(i).getWorkDate().compareTo(paymentList.get(j).getPaymentDate())==0) {
+							 paymentList.get(j).setTotalAmt(workList.get(i).getTotalAmt());
+							 find=1;
+							 break;
+						 }
+					 }
+					 
+					 if(find==0) {
+						 
+						 GetPaymentDetail getPaymentDetail = new GetPaymentDetail();
+						 getPaymentDetail.setPaymentDate(workList.get(i).getWorkDate());
+						 getPaymentDetail.setTotalAmt(workList.get(i).getTotalAmt());
+						 getPaymentDetail.setCustomerId(workList.get(i).getCustomerId());
+						 paymentList.add(getPaymentDetail);
+					 }
+					 
+				 }
+
+			} catch (Exception e) {
+
+				e.printStackTrace();
+			}
+
+			return paymentList;
 
 		}
 }

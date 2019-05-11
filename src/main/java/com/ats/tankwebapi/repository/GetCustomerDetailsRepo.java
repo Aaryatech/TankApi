@@ -19,3 +19,12 @@ public interface GetCustomerDetailsRepo extends JpaRepository<GetCustomerDetails
 	List<GetCustomerDetails> getCustomerInfoByAmtDesc();
 
 }
+
+/*
+ * SELECT COALESCE( ( SELECT SUM(w.total_amt) FROM t_work w WHERE w.customer_id
+ * = 1 GROUP BY w.work_date ), 0 ) AS work_amt, COALESCE( ( SELECT
+ * SUM(p.cost_rs) FROM t_payment p WHERE p.customer_id = 1 GROUP BY
+ * p.payment_date ), 0 ) AS pay_amt
+ * 
+ * SELECT w.customer_id,w.work_date ,SUM(w.total_amt) as total_amt FROM t_work w WHERE w.del_status=1 group by w.work_date and w.customer_id=1
+ */
