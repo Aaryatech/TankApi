@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.tankwebapi.model.Customer;
 import com.ats.tankwebapi.model.Employee;
+import com.ats.tankwebapi.model.GetCustomerLocName;
 import com.ats.tankwebapi.model.Info;
 import com.ats.tankwebapi.model.Location;
 import com.ats.tankwebapi.model.Payment;
@@ -27,6 +28,7 @@ import com.ats.tankwebapi.repository.CustomerRepo;
 import com.ats.tankwebapi.repository.EmployeeRepo;
 import com.ats.tankwebapi.repository.GetCustomerDetailsRepo;
 import com.ats.tankwebapi.repository.GetCustomerInfoRepo;
+import com.ats.tankwebapi.repository.GetCustomerLocNameRepo;
 import com.ats.tankwebapi.repository.GetWorkCustomerRepo;
 import com.ats.tankwebapi.repository.LocationRepo;
 import com.ats.tankwebapi.repository.PaymentRepo;
@@ -69,6 +71,9 @@ public class MasterController {
 	  
 	  @Autowired
 	  GetCustomerDetailsRepo getCustomerDetailsRepo;
+	  
+	  @Autowired
+	  GetCustomerLocNameRepo getCustomerLocNameRepo;
 	  
 		@RequestMapping(value = { "/loginUser" }, method = RequestMethod.POST)
 		public @ResponseBody User loginUser(@RequestParam("username") String userName,
@@ -226,12 +231,12 @@ public class MasterController {
 
 		}
 		@RequestMapping(value = { "/getAllCustomerListWithLocName" }, method = RequestMethod.GET)
-		public @ResponseBody List<Customer> getAllCustomerListWithLocName() {
+		public @ResponseBody List<GetCustomerLocName> getAllCustomerListWithLocName() {
 
-			List<Customer> list = new ArrayList<Customer>();
+			List<GetCustomerLocName> list = new ArrayList<GetCustomerLocName>();
 			try {
 
-				list = customerRepo.getCustomerListWithLocName();
+				list = getCustomerLocNameRepo.getCustomerListWithLocName();
 					System.out.print("Cust List : "+list);
 			} catch (Exception e) {
 
