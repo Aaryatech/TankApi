@@ -30,4 +30,8 @@ public interface CustomerRepo extends JpaRepository<Customer, Integer>{
 
 	List<Customer> findByDelStatusAndIsUsed(int i, int j);
 
+	@Query(value = "select c.* ,l.location_name from m_customer c, m_location l "
+			+ "  where c.area_id = l.location_id ", nativeQuery = true)		
+	List<Customer> getCustomerListWithLocName();
+
 }

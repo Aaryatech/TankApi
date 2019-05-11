@@ -25,6 +25,7 @@ import com.ats.tankwebapi.model.User;
 import com.ats.tankwebapi.model.Work;
 import com.ats.tankwebapi.repository.CustomerRepo;
 import com.ats.tankwebapi.repository.EmployeeRepo;
+import com.ats.tankwebapi.repository.GetCustomerDetailsRepo;
 import com.ats.tankwebapi.repository.GetCustomerInfoRepo;
 import com.ats.tankwebapi.repository.GetWorkCustomerRepo;
 import com.ats.tankwebapi.repository.LocationRepo;
@@ -32,6 +33,7 @@ import com.ats.tankwebapi.repository.PaymentRepo;
 import com.ats.tankwebapi.repository.SettingRepo;
 import com.ats.tankwebapi.repository.UserRepo;
 import com.ats.tankwebapi.repository.WorkRepo;
+import com.ats.tankwebapi.work.model.GetCustomerDetails;
 import com.ats.tankwebapi.work.model.GetCustomerInfo;
 import com.ats.tankwebapi.work.model.GetWorkCustomer;
 
@@ -64,6 +66,9 @@ public class MasterController {
 	  
 	  @Autowired
 	  PaymentRepo paymentRepo;
+	  
+	  @Autowired
+	  GetCustomerDetailsRepo getCustomerDetailsRepo;
 	  
 		@RequestMapping(value = { "/loginUser" }, method = RequestMethod.POST)
 		public @ResponseBody User loginUser(@RequestParam("username") String userName,
@@ -211,6 +216,22 @@ public class MasterController {
 			try {
 
 				list = customerRepo.findByDelStatusAndIsUsedOrderByCustomerIdDesc(1,1);
+					System.out.print("Cust List : "+list);
+			} catch (Exception e) {
+
+				e.printStackTrace();
+			}
+
+			return list;
+
+		}
+		@RequestMapping(value = { "/getAllCustomerListWithLocName" }, method = RequestMethod.GET)
+		public @ResponseBody List<Customer> getAllCustomerListWithLocName() {
+
+			List<Customer> list = new ArrayList<Customer>();
+			try {
+
+				list = customerRepo.getCustomerListWithLocName();
 					System.out.print("Cust List : "+list);
 			} catch (Exception e) {
 
@@ -590,5 +611,21 @@ public class MasterController {
 			}
 
 			return save;
+		}
+		@RequestMapping(value = { "/getCustomerInfoByAmtDesc" }, method = RequestMethod.GET)
+		public @ResponseBody List<GetCustomerDetails> getCustomerInfoByAmtDesc() {
+
+			List<GetCustomerDetails> list = new ArrayList<GetCustomerDetails>();
+			try {
+
+				list = getCustomerDetailsRepo.getCustomerInfoByAmtDesc();
+
+			} catch (Exception e) {
+
+				e.printStackTrace();
+			}
+
+			return list;
+
 		}
 }

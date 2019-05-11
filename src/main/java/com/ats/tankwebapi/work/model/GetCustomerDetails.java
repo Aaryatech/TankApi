@@ -1,95 +1,60 @@
-package com.ats.tankwebapi.model;
+package com.ats.tankwebapi.work.model;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Transient;
 
 @Entity
-@Table(name = "m_customer")
-public class Customer {
+public class GetCustomerDetails {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="customer_id")
 	private int customerId;
 	
-	@Column(name="customer_name")
 	private String customerName;
 	
-	@Column(name="customer_address")
 	private String customerAddress;
 	
-	@Column(name="customer_phone")
 	private String customerPhone;
 	
-	@Column(name="customer_phone2")
 	private String customerPhone2;	
 	
-	@Column(name="customer_contact_name")
 	private String customerContactName;
 	
-	@Column(name="customer_contact_number")
 	private String customerContactNumber;
-	
-	@Column(name="no_of_upper_tank")
+		
 	private float noOfUpperTank;
 	
-	@Column(name="no_of_lower_tank")
 	private float noOfLowerTank;
 	
-	@Column(name="cost_uppertank_perpieces")
 	private float costUppertankPerpieces;
 	
-	@Column(name="cost_lowertank_perpieces")
 	private float costLowertankPerpieces;
 	
-	@Column(name="area_id")
 	private int areaId;
 	
-	@Column(name="frequency")
 	private float frequency;
 	
-	@Column(name="del_status")
 	private int delStatus;
 	
-	@Column(name="is_used")
 	private int isUsed;
 	
-	@Column(name="ex_int1")
 	private Integer exInt1;
 	
-	@Column(name="ex_int2")
 	private Integer exInt2;
 	
-	@Column(name="ex_int3")
 	private Integer exInt3;
 	
-	@Column(name="ex_var1")
 	private String exVar1;
 	
-	@Column(name="ex_var2")
 	private String exVar2;
 	
-	@Column(name="ex_var3")
 	private String exVar3;
 	
-	@Column(name="ex_float1")
 	private float exFloat1;
 	
-	@Column(name="remark")
 	private String remark;
 	
-	@Transient
-	private String msg;
+	private float workAmt;
 	
-	@Transient
-	private String locationName;
-	
-	@Transient
-	private boolean isError;
+	private float payAmt;
 
 	public int getCustomerId() {
 		return customerId;
@@ -275,41 +240,36 @@ public class Customer {
 		this.remark = remark;
 	}
 
-	public String getMsg() {
-		return msg;
+	public float getWorkAmt() {
+		return workAmt;
 	}
 
-	public void setMsg(String msg) {
-		this.msg = msg;
+	public void setWorkAmt(float workAmt) {
+		this.workAmt = workAmt;
 	}
 
-	public boolean isError() {
-		return isError;
+	public float getPayAmt() {
+		return payAmt;
 	}
 
-	public void setError(boolean isError) {
-		this.isError = isError;
-	}
-
-	public String getLocationName() {
-		return locationName;
-	}
-
-	public void setLocationName(String locationName) {
-		this.locationName = locationName;
+	public void setPayAmt(float payAmt) {
+		this.payAmt = payAmt;
 	}
 
 	@Override
 	public String toString() {
-		return "Customer [customerId=" + customerId + ", customerName=" + customerName + ", customerAddress="
+		return "GetCustomerDetails [customerId=" + customerId + ", customerName=" + customerName + ", customerAddress="
 				+ customerAddress + ", customerPhone=" + customerPhone + ", customerPhone2=" + customerPhone2
 				+ ", customerContactName=" + customerContactName + ", customerContactNumber=" + customerContactNumber
 				+ ", noOfUpperTank=" + noOfUpperTank + ", noOfLowerTank=" + noOfLowerTank + ", costUppertankPerpieces="
 				+ costUppertankPerpieces + ", costLowertankPerpieces=" + costLowertankPerpieces + ", areaId=" + areaId
 				+ ", frequency=" + frequency + ", delStatus=" + delStatus + ", isUsed=" + isUsed + ", exInt1=" + exInt1
 				+ ", exInt2=" + exInt2 + ", exInt3=" + exInt3 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2
-				+ ", exVar3=" + exVar3 + ", exFloat1=" + exFloat1 + ", remark=" + remark + ", msg=" + msg
-				+ ", locationName=" + locationName + ", isError=" + isError + "]";
+				+ ", exVar3=" + exVar3 + ", exFloat1=" + exFloat1 + ", remark=" + remark + ", workAmt=" + workAmt
+				+ ", payAmt=" + payAmt + "]";
 	}
-
+	
+	
+	
+	
 }
