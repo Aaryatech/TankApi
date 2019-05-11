@@ -83,10 +83,7 @@ public class Customer {
 	private String remark;
 	
 	@Transient
-	private String msg;
-	
-	@Transient
-	private String locationName;
+	private String msg;	
 	
 	@Transient
 	private boolean isError;
@@ -291,14 +288,6 @@ public class Customer {
 		this.isError = isError;
 	}
 
-	public String getLocationName() {
-		return locationName;
-	}
-
-	public void setLocationName(String locationName) {
-		this.locationName = locationName;
-	}
-
 	@Override
 	public String toString() {
 		return "Customer [customerId=" + customerId + ", customerName=" + customerName + ", customerAddress="
@@ -308,8 +297,9 @@ public class Customer {
 				+ costUppertankPerpieces + ", costLowertankPerpieces=" + costLowertankPerpieces + ", areaId=" + areaId
 				+ ", frequency=" + frequency + ", delStatus=" + delStatus + ", isUsed=" + isUsed + ", exInt1=" + exInt1
 				+ ", exInt2=" + exInt2 + ", exInt3=" + exInt3 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2
-				+ ", exVar3=" + exVar3 + ", exFloat1=" + exFloat1 + ", remark=" + remark + ", msg=" + msg
-				+ ", locationName=" + locationName + ", isError=" + isError + "]";
+				+ ", exVar3=" + exVar3 + ", exFloat1=" + exFloat1 + ", remark=" + remark + ", msg=" + msg + ", isError="
+				+ isError + "]";
 	}
 
+	
 }
