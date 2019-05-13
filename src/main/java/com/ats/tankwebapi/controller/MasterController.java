@@ -506,7 +506,15 @@ public class MasterController {
 			
 			 List<GetWorkCustomer> workList = new ArrayList<GetWorkCustomer>(); 
 			try {
-				workList=getWorkCustomerRepo.getAllworkHistory(custId,status,fromDate,toDate);
+				if(custId==0)
+				{
+					workList=getWorkCustomerRepo.getAllWorkHistoryByDate(status,fromDate,toDate);
+				}
+				else
+				{
+					workList=getWorkCustomerRepo.getAllworkHistory(custId,status,fromDate,toDate);
+				}
+							
 				for(int i=0;i<workList.size();i++)
 				{
 					String empIds=workList.get(i).getEmployeeId();
@@ -535,6 +543,8 @@ public class MasterController {
 			return workList;
 
 		}
+
+
 		@RequestMapping(value = { "/getCustInfoPaymentByCustId" }, method = RequestMethod.POST)
 		public @ResponseBody  List<GetCustomerInfo> getCustInfoPaymentByCustId(@RequestParam("custId") int custId) {
 
@@ -705,6 +715,7 @@ public class MasterController {
 						 getPaymentDetail.setPaymentDate(workList.get(i).getWorkDate());
 						 getPaymentDetail.setTotalAmt(workList.get(i).getTotalAmt());
 						 getPaymentDetail.setCustomerId(workList.get(i).getCustomerId());
+						// getPaymentDetail.setPaymentId(workList.get(i).getPaymentId());
 						 paymentList.add(getPaymentDetail);
 					 }
 					 

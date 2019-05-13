@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity
 public class GetPaymentDetail {
 	@Id
@@ -27,7 +29,7 @@ public class GetPaymentDetail {
 	public void setPaymentId(int paymentId) {
 		this.paymentId = paymentId;
 	}
-
+	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
 	public Date getPaymentDate() {
 		return paymentDate;
 	}
