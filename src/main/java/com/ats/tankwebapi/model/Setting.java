@@ -2,8 +2,10 @@ package com.ats.tankwebapi.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "t_setting")
 public class Setting {
 	@Id
 	private int settingsId;
