@@ -74,16 +74,9 @@ public class GetEmployeeInfo {
 	
 	private String customerContactNumber;
 	
-	private String userName;
 	
-	private String dateOfBirth;
-	
-	private String designation;
-	
-	private String mobileNumber;
-
 	@Transient
-	List<User> user;
+	List<String> user;
 	
 	public int getWorkId() {
 		return workId;
@@ -301,39 +294,6 @@ public class GetEmployeeInfo {
 		this.exVar3 = exVar3;
 	}
 
-	public String getUserName() {
-		return userName;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
-	public String getDateOfBirth() {
-		return dateOfBirth;
-	}
-
-	public void setDateOfBirth(String dateOfBirth) {
-		this.dateOfBirth = dateOfBirth;
-	}
-
-	public String getDesignation() {
-		return designation;
-	}
-
-	public void setDesignation(String designation) {
-		this.designation = designation;
-	}
-
-	public String getMobileNumber() {
-		return mobileNumber;
-	}
-
-	public void setMobileNumber(String mobileNumber) {
-		this.mobileNumber = mobileNumber;
-	}
-
-	
 	public String getCustomerName() {
 		return customerName;
 	}
@@ -373,12 +333,12 @@ public class GetEmployeeInfo {
 	public void setCustomerContactNumber(String customerContactNumber) {
 		this.customerContactNumber = customerContactNumber;
 	}
-	
-	public List<User> getUser() {
+
+	public List<String> getUser() {
 		return user;
 	}
 
-	public void setUser(List<User> user) {
+	public void setUser(List<String> user) {
 		this.user = user;
 	}
 
@@ -394,10 +354,8 @@ public class GetEmployeeInfo {
 				+ exInt2 + ", exInt3=" + exInt3 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + ", exVar3=" + exVar3
 				+ ", customerName=" + customerName + ", customerAddress=" + customerAddress + ", customerPhone="
 				+ customerPhone + ", customerContactName=" + customerContactName + ", customerContactNumber="
-				+ customerContactNumber + ", userName=" + userName + ", dateOfBirth=" + dateOfBirth + ", designation="
-				+ designation + ", mobileNumber=" + mobileNumber + ", user=" + user + "]";
+				+ customerContactNumber + ", user=" + user + "]";
 	}
-
 
 	
 }

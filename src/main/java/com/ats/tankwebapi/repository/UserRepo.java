@@ -32,6 +32,8 @@ public interface UserRepo extends JpaRepository<User, Integer>{
 
 	User findByUserIdAndDelStatusOrderByUserIdDesc(String string, int i);
 
+	List<User> findByUserIdAndDelStatusOrderByUserIdDesc(String[] values, int i);
+
 	
 
 }

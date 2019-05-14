@@ -729,4 +729,31 @@ public class MasterController {
 			return paymentList;
 
 		}
+		@RequestMapping(value = { "/deleteAssignedWork" }, method = RequestMethod.POST)
+		public @ResponseBody Info deleteAssignedWork(@RequestParam("workId") int workId) {
+
+			Info info = new Info();
+
+			try {
+
+				int delete = workRepo.deleteAssignedWork(workId);
+
+				if (delete > 0) {
+					info.setError(false);
+					info.setMsg("deleted");
+				} else {
+					info.setError(true);
+					info.setMsg("failed");
+				}
+
+			} catch (Exception e) {
+
+				e.printStackTrace();
+				info.setError(true);
+				info.setMsg("failed");
+			}
+
+			return info;
+
+		}
 }
