@@ -118,9 +118,13 @@ public class ReportController {
 
 		List<GetEmployeeInfo> workList = new ArrayList<GetEmployeeInfo>();
 		try {
-			
+			if(empId==0)
+			{
+				workList = getEmployeeInfoRepo.getEmpInfoByDate(empId,fromDate,toDate);
+			}
+			else
+			{
 			workList = getEmployeeInfoRepo.getEmpInfoByDate(empId,fromDate,toDate);
-			int j=0;
 			for(int i=0;i<workList.size();i++)
 			{
 				String empIds=workList.get(i).getEmployeeId();
@@ -138,6 +142,7 @@ public class ReportController {
 				
 				workList.get(i).setUser(userList);
 			
+			}
 			}
 
 		} catch (Exception e) {
