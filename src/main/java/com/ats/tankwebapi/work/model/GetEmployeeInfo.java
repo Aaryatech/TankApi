@@ -10,6 +10,8 @@ import com.ats.tankwebapi.model.User;
 @Entity
 public class GetEmployeeInfo {
 	@Id
+	private int srNo;
+	
 	private int workId;
 
 	private int customerId;
@@ -84,6 +86,15 @@ public class GetEmployeeInfo {
 
 	@Transient
 	List<String> user;
+
+	
+	public int getSrNo() {
+		return srNo;
+	}
+
+	public void setSrNo(int srNo) {
+		this.srNo = srNo;
+	}
 
 	public int getWorkId() {
 		return workId;
@@ -383,21 +394,23 @@ public class GetEmployeeInfo {
 
 	@Override
 	public String toString() {
-		return "GetEmployeeInfo [workId=" + workId + ", customerId=" + customerId + ", employeeId=" + employeeId
-				+ ", workDate=" + workDate + ", workTime=" + workTime + ", sequenceNumber=" + sequenceNumber
-				+ ", noOfLowerTank=" + noOfLowerTank + ", noOfUpperTank=" + noOfUpperTank + ", noOfHrSpend="
-				+ noOfHrSpend + ", amtLowerTank=" + amtLowerTank + ", amtUpperTank=" + amtUpperTank + ", finalAmt="
-				+ finalAmt + ", discAmt=" + discAmt + ", totalAmt=" + totalAmt + ", remark=" + remark + ", nextDate="
-				+ nextDate + ", status=" + status + ", customerFrequency=" + customerFrequency + ", billNumber="
-				+ billNumber + ", delStatus=" + delStatus + ", isUsed=" + isUsed + ", exInt1=" + exInt1 + ", exInt2="
-				+ exInt2 + ", exInt3=" + exInt3 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + ", exVar3=" + exVar3
-				+ ", customerName=" + customerName + ", customerAddress=" + customerAddress + ", customerPhone="
-				+ customerPhone + ", customerContactName=" + customerContactName + ", customerContactNumber="
-				+ customerContactNumber + ", userName=" + userName + ", dateOfBirth=" + dateOfBirth + ", designation="
-				+ designation + ", mobileNumber=" + mobileNumber + ", user=" + user + "]";
+		return "GetEmployeeInfo [srNo=" + srNo + ", workId=" + workId + ", customerId=" + customerId + ", employeeId="
+				+ employeeId + ", workDate=" + workDate + ", workTime=" + workTime + ", sequenceNumber="
+				+ sequenceNumber + ", noOfLowerTank=" + noOfLowerTank + ", noOfUpperTank=" + noOfUpperTank
+				+ ", noOfHrSpend=" + noOfHrSpend + ", amtLowerTank=" + amtLowerTank + ", amtUpperTank=" + amtUpperTank
+				+ ", finalAmt=" + finalAmt + ", discAmt=" + discAmt + ", totalAmt=" + totalAmt + ", remark=" + remark
+				+ ", nextDate=" + nextDate + ", status=" + status + ", customerFrequency=" + customerFrequency
+				+ ", billNumber=" + billNumber + ", delStatus=" + delStatus + ", isUsed=" + isUsed + ", exInt1="
+				+ exInt1 + ", exInt2=" + exInt2 + ", exInt3=" + exInt3 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2
+				+ ", exVar3=" + exVar3 + ", customerName=" + customerName + ", customerAddress=" + customerAddress
+				+ ", customerPhone=" + customerPhone + ", customerContactName=" + customerContactName
+				+ ", customerContactNumber=" + customerContactNumber + ", userName=" + userName + ", dateOfBirth="
+				+ dateOfBirth + ", designation=" + designation + ", mobileNumber=" + mobileNumber + ", user=" + user
+				+ "]";
 	}
-	
-	
+
+
+
 
 	
 }

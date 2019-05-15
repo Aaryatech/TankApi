@@ -33,42 +33,38 @@ import com.ats.tankwebapi.work.model.GetWorkMonthDetails;
 @RestController
 public class ReportController {
 
-	 @Autowired
-	  GetCustomerDetailsRepo getCustomerDetailsRepo;
-	 
-	
-	  @Autowired
-	  GetCustInfowithPaymentInfoRepo getCustInfowithPaymentInfoRepo;
-	 
-	 
-	 @Autowired
-	  GetWorkCustomerRepo getWorkCustomerRepo;
-	 
-	 @Autowired
-	 GetEmployeeInfoRepo getEmployeeInfoRepo;
-	 
-	 @Autowired 
-	  UserRepo userRepo;
-	 
-	 @Autowired
-	 GetWorkMonthDetailsRepo getWorkMonthDetailsRepo;
-	 
-	 @Autowired
-	 GetPaymentMonthDetailsRepo getPaymentMonthDetailsRepo;
-	 
+	@Autowired
+	GetCustomerDetailsRepo getCustomerDetailsRepo;
+
+	@Autowired
+	GetCustInfowithPaymentInfoRepo getCustInfowithPaymentInfoRepo;
+
+	@Autowired
+	GetWorkCustomerRepo getWorkCustomerRepo;
+
+	@Autowired
+	GetEmployeeInfoRepo getEmployeeInfoRepo;
+
+	@Autowired
+	UserRepo userRepo;
+
+	@Autowired
+	GetWorkMonthDetailsRepo getWorkMonthDetailsRepo;
+
+	@Autowired
+	GetPaymentMonthDetailsRepo getPaymentMonthDetailsRepo;
+
 	@RequestMapping(value = { "/getCustomerWiseReport" }, method = RequestMethod.POST)
 	public @ResponseBody List<GetCustomerDetails> getCustomerInfoByAmtDesc(@RequestParam("areaId") int areaId) {
 
 		List<GetCustomerDetails> list = new ArrayList<GetCustomerDetails>();
 		try {
-			if(areaId==0)
-			{
+			if (areaId == 0) {
 				list = getCustomerDetailsRepo.getCustomerWiseReport();
-			}
-			else {
+			} else {
 
-			list = getCustomerDetailsRepo.getCustomerWiseReportByAreaId(areaId);
-			} 
+				list = getCustomerDetailsRepo.getCustomerWiseReportByAreaId(areaId);
+			}
 
 		} catch (Exception e) {
 
@@ -78,14 +74,15 @@ public class ReportController {
 		return list;
 
 	}
+
 	@RequestMapping(value = { "/getDateWorkWiseReport" }, method = RequestMethod.POST)
-	public @ResponseBody List<GetWorkCustomer> getDateWorkWiseReport(@RequestParam("fromDate") String fromDate,@RequestParam("toDate") String toDate) {
+	public @ResponseBody List<GetWorkCustomer> getDateWorkWiseReport(@RequestParam("fromDate") String fromDate,
+			@RequestParam("toDate") String toDate) {
 
 		List<GetWorkCustomer> list = new ArrayList<GetWorkCustomer>();
 		try {
-			
-			list = getWorkCustomerRepo.getWorkListByDate(fromDate,toDate);
-			
+
+			list = getWorkCustomerRepo.getWorkListByDate(fromDate, toDate);
 
 		} catch (Exception e) {
 
@@ -95,14 +92,15 @@ public class ReportController {
 		return list;
 
 	}
+
 	@RequestMapping(value = { "/getDatePaymentWiseReport" }, method = RequestMethod.POST)
-	public @ResponseBody List<GetCustInfowithPaymentInfo> getDatePaymentWiseReport(@RequestParam("fromDate") String fromDate,@RequestParam("toDate") String toDate) {
+	public @ResponseBody List<GetCustInfowithPaymentInfo> getDatePaymentWiseReport(
+			@RequestParam("fromDate") String fromDate, @RequestParam("toDate") String toDate) {
 
 		List<GetCustInfowithPaymentInfo> list = new ArrayList<GetCustInfowithPaymentInfo>();
 		try {
-			
-			list = getCustInfowithPaymentInfoRepo.getPaymentListByDate(fromDate,toDate);
-			
+
+			list = getCustInfowithPaymentInfoRepo.getPaymentListByDate(fromDate, toDate);
 
 		} catch (Exception e) {
 
@@ -112,56 +110,62 @@ public class ReportController {
 		return list;
 
 	}
-	
-	@RequestMapping(value = { "/getEmployeeWiseReport" }, method = RequestMethod.POST)
-	public @ResponseBody List<GetEmployeeInfo> getEmployeeWiseReport(@RequestParam("empId") int empId,@RequestParam("fromDate") String fromDate,@RequestParam("toDate") String toDate) {
 
-		List<GetEmployeeInfo> workList = new ArrayList<GetEmployeeInfo>();
-		try {
-			if(empId==0)
-			{
-				workList = getEmployeeInfoRepo.getEmpInfoByDate(empId,fromDate,toDate);
-			}
-			else
-			{
-			workList = getEmployeeInfoRepo.getEmpInfoByDate(empId,fromDate,toDate);
-			for(int i=0;i<workList.size();i++)
-			{
-				String empIds=workList.get(i).getEmployeeId();
-				String[] values = empIds.split(",");
-			
-				
-				  List<String> al = new ArrayList<String>(Arrays.asList(values));
-				 /** 
-				 * Set<String> set = new HashSet<>(al); al.clear(); al.addAll(set);
-				 */
-				  
-				//System.err.println("emp ids for notification are:--------------:" + al.toString());
-				List<String> userList = getEmployeeInfoRepo.getUserName(al);
-					//userList.add(user); 
-				
-				workList.get(i).setUser(userList);
-			
-			}
-			}
+	/*
+	 * @RequestMapping(value = { "/getEmployeeWiseReport" }, method =
+	 * RequestMethod.POST) public @ResponseBody List<GetEmployeeInfo>
+	 * getEmployeeWiseReport(@RequestParam("empId") int
+	 * empId,@RequestParam("fromDate") String fromDate,@RequestParam("toDate")
+	 * String toDate) {
+	 * 
+	 * List<GetEmployeeInfo> workList = new ArrayList<GetEmployeeInfo>();
+	 * List<GetEmployeeInfo> resultList = new ArrayList<GetEmployeeInfo>(); try {
+	 * if(empId==0)
+	 * 
+	 * { List<User> list = new ArrayList<User>(); workList =
+	 * getEmployeeInfoRepo.getEmpInfoByFromDate(fromDate,toDate); list =
+	 * userRepo.findByDelStatus(1); for(int i=0;i<list.size();i++) { for(int
+	 * j=0;j<workList.size();j++) {
+	 * if(workList.get(j).getEmployeeId().contains(String.valueOf(list.get(i).
+	 * getUserId()))) { workList.get(j).setUserName(list.get(i).getUserName());
+	 * resultList.add(workList.get(j)); } } }
+	 * 
+	 * } else { resultList =
+	 * getEmployeeInfoRepo.getEmpInfoByDate(empId,fromDate,toDate); for(int
+	 * i=0;i<workList.size();i++) { String empIds=workList.get(i).getEmployeeId();
+	 * String[] values = empIds.split(",");
+	 * 
+	 * 
+	 * List<String> al = new ArrayList<String>(Arrays.asList(values));
+	 *//**
+		 * Set<String> set = new HashSet<>(al); al.clear(); al.addAll(set);
+		 *//*
+			 * 
+			 * //System.err.println("emp ids for notification are:--------------:" +
+			 * al.toString()); List<String> userList = getEmployeeInfoRepo.getUserName(al);
+			 * //userList.add(user);
+			 * 
+			 * resultList.get(i).setUser(userList);
+			 * 
+			 * } }
+			 * 
+			 * } catch (Exception e) {
+			 * 
+			 * e.printStackTrace(); }
+			 * 
+			 * return resultList;
+			 * 
+			 * }
+			 */
 
-		} catch (Exception e) {
-
-			e.printStackTrace();
-		}
-
-		return workList;
-
-	}
-	
 	@RequestMapping(value = { "/getWorkMonthWiseReport" }, method = RequestMethod.POST)
-	public @ResponseBody List<GetWorkMonthDetails> getWorkMonthWiseReport(@RequestParam("fromDate") String fromDate,@RequestParam("toDate") String toDate) {
+	public @ResponseBody List<GetWorkMonthDetails> getWorkMonthWiseReport(@RequestParam("fromDate") String fromDate,
+			@RequestParam("toDate") String toDate) {
 
 		List<GetWorkMonthDetails> list = new ArrayList<GetWorkMonthDetails>();
 		try {
-			
-			list = getWorkMonthDetailsRepo.getWorkDetailsByMonth(fromDate,toDate);
-			
+
+			list = getWorkMonthDetailsRepo.getWorkDetailsByMonth(fromDate, toDate);
 
 		} catch (Exception e) {
 
@@ -171,15 +175,15 @@ public class ReportController {
 		return list;
 
 	}
-	
+
 	@RequestMapping(value = { "/getPaymentMonthWiseReport" }, method = RequestMethod.POST)
-	public @ResponseBody List<GetPaymentMonthDetails> getPaymentMonthWiseReport(@RequestParam("fromDate") String fromDate,@RequestParam("toDate") String toDate) {
+	public @ResponseBody List<GetPaymentMonthDetails> getPaymentMonthWiseReport(
+			@RequestParam("fromDate") String fromDate, @RequestParam("toDate") String toDate) {
 
 		List<GetPaymentMonthDetails> list = new ArrayList<GetPaymentMonthDetails>();
 		try {
-			
-			list = getPaymentMonthDetailsRepo.getPaymentDetailsByMonth(fromDate,toDate);
-			
+
+			list = getPaymentMonthDetailsRepo.getPaymentDetailsByMonth(fromDate, toDate);
 
 		} catch (Exception e) {
 
@@ -189,47 +193,50 @@ public class ReportController {
 		return list;
 
 	}
-	@RequestMapping(value = { "/getMonthWiseReportByDate" }, method = RequestMethod.POST)
-	public @ResponseBody  List<GetPaymentMonthDetails> getMonthWiseReportByDate(@RequestParam("fromDate") String fromDate,@RequestParam("toDate") String toDate) {
 
-		
+	@RequestMapping(value = { "/getMonthWiseReportByDate" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetPaymentMonthDetails> getMonthWiseReportByDate(
+			@RequestParam("fromDate") String fromDate, @RequestParam("toDate") String toDate) {
+
 		List<GetWorkMonthDetails> workList = new ArrayList<GetWorkMonthDetails>();
 		List<GetPaymentMonthDetails> paymentList = new ArrayList<GetPaymentMonthDetails>();
 		try {
-			
-			workList = getWorkMonthDetailsRepo.getWorkDetailsByMonth(fromDate,toDate);
-			paymentList = getPaymentMonthDetailsRepo.getPaymentDetailsByMonth(fromDate,toDate);
 
-			 for(int i = 0 ; i<workList.size() ; i++) {
-				 
-				 int find = 0 ;
-				 
-				 for(int j = 0 ; j<paymentList.size() ; j++) {
-					 
-					 if(workList.get(i).getMonthName().equalsIgnoreCase(paymentList.get(j).getMonthName()) && workList.get(i).getYear().equalsIgnoreCase(paymentList.get(j).getYear())) {
-						 paymentList.get(j).setTotalAmt(workList.get(i).getTotalAmt());
-						 paymentList.get(j).setFinalAmt(workList.get(i).getFinalAmt());
-						 paymentList.get(j).setDiscAmt(workList.get(i).getDiscAmt());
-						 find=1;
-						 break;
-					 }
-				 }
-				 
-				 if(find==0) {
-					 
-					 GetPaymentMonthDetails getPaymentDetail = new GetPaymentMonthDetails();
-					 getPaymentDetail.setMonthName(workList.get(i).getMonthName());
-					 getPaymentDetail.setTotalAmt(workList.get(i).getTotalAmt());
-					 getPaymentDetail.setMonthDate(workList.get(i).getMonthDate());
-					 getPaymentDetail.setYear(workList.get(i).getYear());
-					 getPaymentDetail.setFinalAmt(workList.get(i).getFinalAmt());
-					 getPaymentDetail.setDiscAmt(workList.get(i).getDiscAmt());
-				//	 getPaymentDetail.setCostRs(workList.get(i).getCostRs());
+			workList = getWorkMonthDetailsRepo.getWorkDetailsByMonth(fromDate, toDate);
+			paymentList = getPaymentMonthDetailsRepo.getPaymentDetailsByMonth(fromDate, toDate);
+
+			for (int i = 0; i < workList.size(); i++) {
+
+				int find = 0;
+
+				for (int j = 0; j < paymentList.size(); j++) {
+
+					if (workList.get(i).getMonthName().equalsIgnoreCase(paymentList.get(j).getMonthName())
+							&& workList.get(i).getYear().equalsIgnoreCase(paymentList.get(j).getYear())) {
+						paymentList.get(j).setTotalAmt(workList.get(i).getTotalAmt());
+						paymentList.get(j).setFinalAmt(workList.get(i).getFinalAmt());
+						paymentList.get(j).setDiscAmt(workList.get(i).getDiscAmt());
+						find = 1;
+						break;
+					}
+				}
+
+				if (find == 0) {
+
+					GetPaymentMonthDetails getPaymentDetail = new GetPaymentMonthDetails();
+					getPaymentDetail.setMonthName(workList.get(i).getMonthName());
+					getPaymentDetail.setTotalAmt(workList.get(i).getTotalAmt());
+					getPaymentDetail.setMonthDate(workList.get(i).getMonthDate());
+					getPaymentDetail.setYear(workList.get(i).getYear());
+					getPaymentDetail.setFinalAmt(workList.get(i).getFinalAmt());
+					getPaymentDetail.setDiscAmt(workList.get(i).getDiscAmt());
+					// getPaymentDetail.setCostRs(workList.get(i).getCostRs());
 					// getPaymentDetail.setPaymentId(workList.get(i).getPaymentId());
-					 paymentList.add(getPaymentDetail);
-					 System.out.println("List: "+paymentList.toString());				 }
-				 
-			 }
+					paymentList.add(getPaymentDetail);
+					System.out.println("List: " + paymentList.toString());
+				}
+
+			}
 
 		} catch (Exception e) {
 
@@ -237,6 +244,33 @@ public class ReportController {
 		}
 
 		return paymentList;
+
+	}
+	
+	@RequestMapping(value = { "/getEmployeeWiseReport" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetEmployeeInfo> getEmployeeWiseReport(@RequestParam("empId") int empId,@RequestParam("fromDate") String fromDate,@RequestParam("toDate") String toDate) {
+
+	
+		List<GetEmployeeInfo> resultList = new ArrayList<GetEmployeeInfo>();
+		try {
+			if(empId==0)
+				
+			{
+				resultList = getEmployeeInfoRepo.getEmpInfoByFromDate(fromDate,toDate);
+				
+				
+			}
+			else
+			{
+				resultList = getEmployeeInfoRepo.getEmpInfoByDate(empId,fromDate,toDate);
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return resultList;
 
 	}
 }
