@@ -12,7 +12,7 @@ public interface GetWorkCustomerRepo extends JpaRepository<GetWorkCustomer, Inte
 
 	@Query(value = " SELECT w.*,c.customer_name,c.customer_address,c.customer_phone,c.customer_contact_name,c.customer_contact_number"
 			+ " FROM t_work w, m_customer c "
-			+ "WHERE w.customer_id=c.customer_id and w.status=:status and c.del_status=1", nativeQuery = true)
+			+ "WHERE w.customer_id=c.customer_id and w.status=:status and w.del_status=1", nativeQuery = true)
 	List<GetWorkCustomer> getAllworkInfo(@Param("status") int status);
 
 	

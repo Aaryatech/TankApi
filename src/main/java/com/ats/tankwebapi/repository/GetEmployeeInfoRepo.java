@@ -13,7 +13,7 @@ public interface GetEmployeeInfoRepo extends JpaRepository<GetEmployeeInfo, Inte
 	@Query(value = "SELECT w.*, c.customer_name,c.customer_address,c.customer_phone,c.customer_contact_name,c.customer_contact_number,"
 			+ "u.user_name,u.date_of_birth ,u.designation,u.mobile_number"
 			
-			+ " FROM  t_work w,m_user u\n" + 
+			+ " FROM  t_work w,m_user u,\n" + 
 			"   \n" + 
 			"   m_customer c " 
 			+ "WHERE w.work_date BETWEEN :fromDate AND :toDate \n" + 
@@ -26,21 +26,3 @@ public interface GetEmployeeInfoRepo extends JpaRepository<GetEmployeeInfo, Inte
 	List<String> getUserName(List<String> al);
 	 
 }
-/* 
- * SELECT * FROM `t_work` WHERE DATE_FORMAT(t_work.work_date,'%Y-%m')='2019-05'
- * OR DATE_FORMAT(t_work.work_date,'%Y-%m')='2019-06'
- * SELECT
-    w.work_id,
-    MONTHNAME(w.work_date) AS MONTHNAME,
-    MONTH(w.work_date) AS MONTH,
-    YEAR(w.work_date) AS YEAR,
-    SUM(w.total_amt) AS work_amt,
-    SUM(w.disc_amt) AS disc_amt,
-    SUM(w.final_amt) AS final_amt
-FROM
-    t_work w
-WHERE
-    w.work_date BETWEEN '2019-05-01' AND '2019-08-31'
-GROUP BY
-    MONTH(w.work_date)
- */
